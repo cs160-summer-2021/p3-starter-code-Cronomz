@@ -10,31 +10,65 @@
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
 
 	<style type="text/css">
+		#header {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 35px;
+			text-align: center;
+			padding-top: 5px;
+			background-color: #98B4C3;
+			font-size: 25px;
+			font-weight: 700;
+			letter-spacing: 10px;
+		}
+
+		#toolBar {
+			position: absolute;
+			top: 40px;
+			left: 0;
+			width: 200px;
+			height: calc(100vh - 40px);
+			background-color: #EFEFEF;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
 		#color-palette {
-			width: 300px;
+			width: 200px;
+			height: calc(100vh - 40px);
 			background-color: #f1f1f1;
 			display: flex;
 			flex-wrap: wrap;
 			position: absolute;
-			top: 0;
+			top: 40px;
+			right: 0;
 		}
 
 		.swatch {
-			width: 24px;
-			height: 24px;
-			-moz-border-radius: 12px;
-			-webkit-border-radius: 12px;
-			border-radius: 12px;
-			margin: 3px;
+			width: 92px;
+			height: 92px;
+			-moz-border-radius: 46px;
+			-webkit-border-radius: 46px;
+			border-radius: 46px;
+			margin: 20px 54px 20px 54px;
 		}
 
 		#myCanvas {
 			padding-left: 0;
 		    padding-right: 0;
+			margin-top: 40px;
 		    margin-left: auto;
 		    margin-right: auto;
 		    display: block;
 		}
+
+		#container {
+
+		}
+
+
 	</style>
 
 	<script type="text/javascript" canvas="canvas">
@@ -118,8 +152,13 @@
 	</script>
 </head>
 <body>
+	<div id="header">EASYCOLOR</div>
+	<div id="toolBar">
 
-	<canvas id="myCanvas" width="750px" height="750px"></canvas>
+	</div>
+	<div id="container">
+		<canvas id="myCanvas" width="750px" height="750px"></canvas>
+	</div>
 	<div id="color-palette"></div>
 </body>
 </html>
