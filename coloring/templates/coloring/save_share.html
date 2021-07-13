@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  	<title>P3 Coloring</title>
+
+	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+    
+<!--    add bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+	<style type="text/css">
+		#header {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 45px;
+			display: flex;
+			justify-content: space-between;
+			padding: 5px;			
+			background-color: #98B4C3;
+			font-size: 25px;
+			font-weight: 700;
+			letter-spacing: 10px;
+            font-family: serif;
+            text-align: center;
+		}
+
+		#help img{
+			height: 30px;
+			width: 30px;
+		}
+
+		#toolBar {
+			position: absolute;
+			top: 45px;
+			left: 0;
+			width: 200px;
+			height: calc(100vh - 40px);
+			background-color: #EFEFEF;
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			justify-content: space-evenly;
+			align-content: center;
+		}
+
+		#color-palette {
+			width: 200px;
+			height: calc(100vh - 40px);
+			background-color: #f1f1f1;
+			display: flex;
+			flex-wrap: wrap;
+			position: absolute;
+			top: 45px;
+			right: 0;
+		}
+
+		.swatch {
+			width: 92px;
+			height: 92px;
+			-moz-border-radius: 46px;
+			-webkit-border-radius: 46px;
+			border-radius: 46px;
+			margin: 20px 54px 20px 54px;
+		}
+
+		#myCanvas {
+			padding-left: 0;
+		    padding-right: 0;
+			margin-top: 45px;
+		    margin-left: auto;
+		    margin-right: auto;
+		    display: flex;
+		}
+
+		#container {
+			
+		}
+
+		.tools {
+			height: 120px;
+			width: 120px;
+			border-radius: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+        
+        .nav-tools {
+            height: 60px;
+			width: 60px;
+			border-radius: 20px;
+			background-color: #c4c4c4;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+        
+        .share-bar {
+            height: 150px;
+            background-color: #98B4C3;
+            margin-top: 10px;
+            padding-left: 50px;
+            padding-top: 20px;
+        }
+
+	</style>
+
+	<script type="text/javascript" canvas="canvas">
+		window.onload = function() {
+			var canvas = document.getElementById('myCanvas');
+
+			// coloring page
+			var mandala = {
+				item: null,
+				lastClicked: null,
+				filePath: '/static/coloring/images/mandala-freepik.svg'
+			};
+
+			// color palette
+			var cp = {
+				history: ["#000000"], // black selected by default
+				options: [],
+				$container: $('#color-palette')
+			}
+
+			function myCustomInteraction() {
+				var tool = new paper.Tool();
+
+				tool.onMouseDown = function (event) {
+				    var hit = mandala.item.hitTest(event.point, { tolerance: 10, fill: true });
+				    if (hit) {
+				    		// Color pallette keeps track of the full history of colors, though we
+				    		// only color in with the most-recent color.
+				        hit.item.fillColor = cp.history[cp.history.length - 1];
+				    }
+				}
+			}
+
+			// create a color palette with the given colors
+			function createColorPalette(colors){
+
+				// create a swatch for each color
+				for (var i = colors.length - 1; i >= 0; i--) {
+					var $swatch = $("<div>").css("background-color", colors[i])
+									   .addClass("swatch");
+					$swatch.click(function(){
+						// add color to the color palette history
+					  	cp.history.push($(this).css("background-color"));
+					});
+					cp.$container.append($swatch);
+				}
+			}
+
+			// loads a set of colors from a json to create a color palette
+			function getColorsCreatePalette(){
+				cp.$container.html(" ");
+				$.getJSON('/static/coloring/vendors/material/material-colors.json', function(colors){
+					var keys = Object.keys(colors);
+					for (var i = keys.length - 1; i >= 0; i--) {
+						cp.options.push(colors[keys[i]][500]);
+					}
+					createColorPalette(cp.options);
+				});
+			}
+
+			function init(custom){
+				paper.setup(canvas);
+				getColorsCreatePalette();
+
+				paper.project.importSVG(mandala.filePath, function(item) {
+					mandala.item = item._children["design-freepik"];
+				    paper.project.insertLayer(0,mandala.item);
+
+				    if (custom) {
+				    	myCustomInteraction();
+				    } else {
+				    	myGradientInteraction();
+				    }
+
+				});
+			}
+
+			// Set up the mandala interactivity.
+			init(true);
+		}
+	</script>
+</head>
+<body>
+	<div id="header"><a href="demo" style="color: black;">EASYCOLOR</a>
+		<div id="help">
+            <a href="help"><img src='/static/coloring/images/help-button.png'></a>
+		</div>
+	</div>
+	<div id="container">
+		<canvas id="myCanvas" width="500px" height="500px"></canvas>
+	</div>
+    <div class="row share-bar">        
+		<div class="tools">
+			<img src='/static/coloring/images/imessage.png' height="80px" width="80px">
+		</div>
+		<div class="tools">
+			<img src='/static/coloring/images/instagram.png' height="80px" width="80px">
+		</div>
+		<div class="tools">
+			<img src='/static/coloring/images/facebook.png' height="80px" width="80px">
+		</div>
+        <div class="tools">
+			<img src='/static/coloring/images/twitter.png' height="80px" width="80px">
+        </div>
+        <div class="tools">
+			<img src='/static/coloring/images/pinterest.png' height="80px" width="80px">
+        </div>
+        <div class="tools">
+			<img src='/static/coloring/images/slack.png' height="80px" width="80px">
+        </div>
+        <div class="tools">
+			<img src='/static/coloring/images/whatsapp.png' height="80px" width="80px">
+        </div>
+        <div class="tools">
+			<img src='/static/coloring/images/snapchat.png' height="80px" width="80px">
+        </div>
+    </div>
+</body>
+</html>
