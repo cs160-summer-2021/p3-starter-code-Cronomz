@@ -8,6 +8,10 @@
 
 	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+    
+<!--    add bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 
 	<style type="text/css">
 		#header {
@@ -15,7 +19,7 @@
 			top: 0;
 			left: 0;
 			width: 100%;
-			height: 35px;
+			height: 45px;
 			display: flex;
 			justify-content: space-between;
 			padding: 5px;			
@@ -23,6 +27,8 @@
 			font-size: 25px;
 			font-weight: 700;
 			letter-spacing: 10px;
+            font-family: serif;
+            text-align: center;
 		}
 
 		#help img{
@@ -87,6 +93,18 @@
 			justify-content: center;
 			align-items: center;
 		}
+        
+        .nav-tools {
+            height: 60px;
+			width: 60px;
+			border-radius: 20px;
+			background-color: #c4c4c4;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
 	</style>
 
 	<script type="text/javascript" canvas="canvas">
@@ -172,11 +190,19 @@
 <body>
 	<div id="header">EASYCOLOR
 		<div id="help">
-			<img src='/static/coloring/images/help-button.png'>
+            <a href="help"><img src='/static/coloring/images/help-button.png'></a>
 		</div>
 	</div>
 	<div id="toolBar">
-		<div class="tools">
+        <div class="row">
+            <div class="col nav-tools" style="margin: 10px">
+                <a href="#"><img src='/static/coloring/images/back-arrow.png' height="40px" width="40px"></a>
+            </div>
+            <div class="col nav-tools" style="margin: 10px">
+                <a href="save_share"><img src='/static/coloring/images/done-check.png' height="40px" width="40px"></a>
+            </div>
+        </div>
+        <div class="tools">
 			<img src='/static/coloring/images/paint-bucket-icon.png' height="80px" width="80px">
 		</div>
 		<div class="tools">
