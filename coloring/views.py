@@ -11,3 +11,6 @@ def save_share(request):
 
 def help(request):
     return render(request, 'coloring/help.html')
+
+def library(request):
+    return render(request, 'coloring/library.html')
