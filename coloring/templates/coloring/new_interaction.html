@@ -125,6 +125,7 @@
 			align-items: center;
 		}
 
+		
 	</style>
 
 	<script type="text/javascript" canvas="canvas">
@@ -164,7 +165,7 @@
 				// create a swatch for each color
 				for (var i = colors.length - 1; i >= 0; i--) {
 					var $swatch = $("<div>").css("background-color", colors[i])
-									   .addClass("swatch");
+									   .addClass("swatch").addClass("color" + String(i));
 					$swatch.click(function(){
 						// add color to the color palette history
 					  	cp.history.push($(this).css("background-color"));
@@ -204,6 +205,13 @@
 
 			// Set up the mandala interactivity.
 			init(true);
+
+			function save(){
+				var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+				canvas.toBlob(function(image) {
+  					saveAs(image, "image.png");
+				});
+			}
 		}
 	</script>
 </head>
@@ -222,8 +230,17 @@
 						<p style="width: 120px;letter-spacing: 1px; font-size: 20px;">Zoom In/Out <br> with mouse</p>
 						<img src="/static/coloring/images/mouse-scroll-icon.png" width="70px" height="100px">
 					</div>
-					<div class="row">
-						
+					<div class="row" style="justify-content: space-evenly; margin-top: 20px;">
+						<p style="width: 120px;letter-spacing: 1px; font-size: 20px;">Save and <br> Share</p>
+						<div class="nav-tools">
+							<img src='/static/coloring/images/done-check.png' height="40px" width="40px">
+						</div>
+					</div>
+					<div class="row" style="justify-content: space-evenly; margin-top: 20px;">
+						<p style="width: 120px;letter-spacing: 1px; font-size: 20px;">Save and <br> Back</p>
+						<div class="nav-tools">
+							<img src='/static/coloring/images/back-arrow.png' height="40px" width="40px">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -235,9 +252,9 @@
             <div class="nav-tools">
                 <a href="library"><img src='/static/coloring/images/back-arrow.png' height="40px" width="40px"></a>
             </div>
-            <div class="nav-tools">
+            <button class="nav-tools" onclick="save()">
                 <a href="save_share"><img src='/static/coloring/images/done-check.png' height="40px" width="40px"></a>
-            </div>
+			</button>
         </div>
         <div class="tools">
 			<img src='/static/coloring/images/paint-bucket-icon.png' height="80px" width="80px">
