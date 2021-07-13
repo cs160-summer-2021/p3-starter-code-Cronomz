@@ -16,17 +16,23 @@
 			left: 0;
 			width: 100%;
 			height: 35px;
-			text-align: center;
-			padding-top: 5px;
+			display: flex;
+			justify-content: space-between;
+			padding: 5px;			
 			background-color: #98B4C3;
 			font-size: 25px;
 			font-weight: 700;
 			letter-spacing: 10px;
 		}
 
+		#help img{
+			height: 30px;
+			width: 30px;
+		}
+
 		#toolBar {
 			position: absolute;
-			top: 40px;
+			top: 45px;
 			left: 0;
 			width: 200px;
 			height: calc(100vh - 40px);
@@ -45,7 +51,7 @@
 			display: flex;
 			flex-wrap: wrap;
 			position: absolute;
-			top: 40px;
+			top: 45px;
 			right: 0;
 		}
 
@@ -61,7 +67,7 @@
 		#myCanvas {
 			padding-left: 0;
 		    padding-right: 0;
-			margin-top: 40px;
+			margin-top: 45px;
 		    margin-left: auto;
 		    margin-right: auto;
 		    display: block;
@@ -79,7 +85,7 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			align-content: center;
+			align-items: center;
 		}
 	</style>
 
@@ -164,7 +170,11 @@
 	</script>
 </head>
 <body>
-	<div id="header">EASYCOLOR</div>
+	<div id="header">EASYCOLOR
+		<div id="help">
+			<img src='/static/coloring/images/help-button.png'>
+		</div>
+	</div>
 	<div id="toolBar">
 		<div class="tools">
 			<img src='/static/coloring/images/paint-bucket-icon.png' height="80px" width="80px">
