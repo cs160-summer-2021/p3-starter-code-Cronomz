@@ -8,34 +8,123 @@
 
 	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+    
+<!--    add bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 
 	<style type="text/css">
+		#header {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 45px;
+			display: flex;
+			justify-content: space-between;
+			padding: 5px;			
+			background-color: #98B4C3;
+			font-size: 25px;
+			font-weight: 700;
+			letter-spacing: 10px;
+            font-family: serif;
+            text-align: center;
+		}
+
+		.help-button img{
+			height: 30px;
+			width: 30px;
+		}
+		
+		.helpBar {
+			position: absolute;
+			top: 45px;
+			right: 0;
+			width: 300px;
+			height: calc(100vh - 40px);
+			background-color: #D9D8D8;
+			transform: scale(0);
+			z-index: 99;
+		}
+
+		#help:hover .helpBar{
+			transform: scale(1);
+		}
+
+		#toolBar {
+			position: absolute;
+			top: 45px;
+			left: 0;
+			width: 200px;
+			height: calc(100vh - 40px);
+			background-color: #EFEFEF;
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			justify-content: space-evenly;
+			align-content: center;
+		}
+
 		#color-palette {
-			width: 500px;
+			width: 200px;
+			height: calc(100vh - 40px);
 			background-color: #f1f1f1;
 			display: flex;
 			flex-wrap: wrap;
 			position: absolute;
-			top: 0;
+			top: 45px;
 			right: 0;
 		}
 
 		.swatch {
-			width: 24px;
-			height: 24px;
-			-moz-border-radius: 12px;
-			-webkit-border-radius: 12px;
-			border-radius: 12px;
-			margin: 10px;
+			width: 92px;
+			height: 92px;
+			-moz-border-radius: 46px;
+			-webkit-border-radius: 46px;
+			border-radius: 46px;
+			margin: 20px 54px 20px 54px;
 		}
 
 		#myCanvas {
 			padding-left: 0;
 		    padding-right: 0;
+			margin-top: 45px;
 		    margin-left: auto;
 		    margin-right: auto;
 		    display: block;
 		}
+
+		#container {
+			
+		}
+
+		.tools {
+			height: 120px;
+			width: 120px;
+			border-radius: 20px;
+			background-color: #c4c4c4;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+        
+		.row {
+			display: flex;
+			justify-content: space-between;
+		}
+
+        .nav-tools {
+            height: 60px;
+			width: 60px;
+			border-radius: 20px;
+			background-color: #c4c4c4;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
 	</style>
 
 	<script type="text/javascript" canvas="canvas">
@@ -119,8 +208,53 @@
 	</script>
 </head>
 <body>
+	<div id="header">
+		<div></div>
+		<div class="easy">
+			EASYCOLOR
+		</div>
+		<div id="help">
+            <div class="help-button"><img src='/static/coloring/images/help-button.png'></div>
+			<div class="helpBar">
+				<div class="col">
+					<div class="help-text" style="font-size: 40px;">Help</div>
+					<div class="row" style="justify-content: space-evenly; margin-top: 20px;">
+						<p style="width: 120px;letter-spacing: 1px; font-size: 20px;">Zoom In/Out <br> with mouse</p>
+						<img src="/static/coloring/images/mouse-scroll-icon.png" width="70px" height="100px">
+					</div>
+					<div class="row">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<canvas id="myCanvas" width="750px" height="750px"></canvas>
+	<div id="toolBar">
+        <div class="row">
+            <div class="nav-tools">
+                <a href="library"><img src='/static/coloring/images/back-arrow.png' height="40px" width="40px"></a>
+            </div>
+            <div class="nav-tools">
+                <a href="save_share"><img src='/static/coloring/images/done-check.png' height="40px" width="40px"></a>
+            </div>
+        </div>
+        <div class="tools">
+			<img src='/static/coloring/images/paint-bucket-icon.png' height="80px" width="80px">
+		</div>
+		<div class="tools">
+			<img src='/static/coloring/images/brush-icon.png' height="80px" width="80px">
+		</div>
+		<div class="tools">
+			<img src='/static/coloring/images/pencil-icon.png' height="80px" width="80px">
+		</div>
+		<div class="tools">
+			<img src='/static/coloring/images/eraser-icon.png' height="80px" width="80px">
+		</div>
+	</div>
+	<div id="container">
+		<canvas id="myCanvas" width="750px" height="750px"></canvas>
+	</div>
 	<div id="color-palette"></div>
 </body>
 </html>
